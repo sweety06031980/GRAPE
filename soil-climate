@@ -1,0 +1,165 @@
+import pandas as pd
+import pandas as pd
+dataFrame=pd.read_excel("new dataet 2.xlsx")
+​
+uniqueVillages=dataFrame['Village'].unique()
+ 
+columnTitles=list(dataFrame.columns)
+​
+columnTitles
+['Sr. No.',
+ 'Report Number',
+ 'Farmer Name',
+ 'Village',
+ 'Variety',
+ 'Plot No/\nGat No',
+ 'Sample Date',
+ 'Report Date',
+ 'pH',
+ 'EC',
+ 'CaCo3',
+ 'OC',
+ 'N',
+ 'NH4-N',
+ 'P',
+ 'K',
+ 'Ca',
+ 'Mg',
+ 'S',
+ 'Fe',
+ 'Mn',
+ 'Zn',
+ 'Cu',
+ 'Na ',
+ 'B',
+ 'HCO3',
+ 'Cl',
+ 'Wind Speed',
+ 'Wind Direction',
+ 'Air Temperature',
+ 'Canopy Temperature',
+ 'Rainfall',
+ 'Leaf Wetness',
+ 'Humidity']
+neutrientsTitles=dataFrame.iloc[0:0,8:27]
+climateParametersTitles=["Air Temperature","Humidity"]
+climateParametersTitles=dataFrame.iloc[0:0,29:30]
+climateParametersTitles["Humidity"]=(dataFrame.iloc[:,30:31])
+​
+final=[]
+for i in uniqueVillages:
+    col=list(dataFrame.columns)
+    cor=[]
+    for s in climateParametersTitles:
+        if p in col:
+            f=[]
+            for p in neutrientsTitles:
+                r=dataFrame.loc[dataFrame.Village==i]
+                #r=r.iloc[::,9:]
+                c=r[s].corr(r[p])
+                f.append(c)
+            f.insert(0,s)
+            f.insert(0,i)
+            cor.append(f)
+    final.append(cor)
+​
+​
+fd=[]
+secondary=list(neutrientsTitles)
+secondary.insert(0,"Vilages")
+secondary.insert(1,"Climate Parameters")
+for k in final:
+    dp=pd.DataFrame(k)
+    dp.columns=secondary
+    fd.append(dp)
+cd=pd.concat(fd)
+cd
+Vilages	Climate Parameters	pH	EC	CaCo3	OC	N	NH4-N	P	K	...	Mg	S	Fe	Mn	Zn	Cu	Na	B	HCO3	Cl
+0	Pimpalas Ramche	Air Temperature	0.438565	-0.856520	-0.781479	-0.378660	-0.159179	0.811906	-0.578139	0.183980	...	-0.316855	-0.494663	0.704822	0.210921	0.418137	0.265610	-0.858687	-0.757200	0.070691	-0.025910
+1	Pimpalas Ramche	Humidity	-0.311237	0.719694	0.785381	0.423929	0.289979	-0.739936	0.751262	-0.200226	...	0.533887	0.466327	-0.643025	-0.122119	-0.473166	-0.116026	0.672390	0.633165	0.258040	0.247584
+0	Oney	Air Temperature	-1.000000	1.000000	-1.000000	1.000000	1.000000	-1.000000	-1.000000	1.000000	...	1.000000	-1.000000	1.000000	-1.000000	1.000000	1.000000	1.000000	-1.000000	-1.000000	-1.000000
+1	Oney	Humidity	-1.000000	1.000000	-1.000000	1.000000	1.000000	-1.000000	-1.000000	1.000000	...	1.000000	-1.000000	1.000000	-1.000000	1.000000	1.000000	1.000000	-1.000000	-1.000000	-1.000000
+0	Kasbe Sukene	Air Temperature	1.000000	1.000000	1.000000	-1.000000	-1.000000	-1.000000	NaN	-1.000000	...	-1.000000	-1.000000	1.000000	-1.000000	-1.000000	-1.000000	1.000000	1.000000	1.000000	-1.000000
+1	Kasbe Sukene	Humidity	1.000000	1.000000	1.000000	-1.000000	-1.000000	-1.000000	NaN	-1.000000	...	-1.000000	-1.000000	1.000000	-1.000000	-1.000000	-1.000000	1.000000	1.000000	1.000000	-1.000000
+0	Sukene	Air Temperature	1.000000	-1.000000	1.000000	-1.000000	NaN	NaN	-1.000000	1.000000	...	1.000000	-1.000000	-1.000000	-1.000000	1.000000	1.000000	1.000000	-1.000000	1.000000	1.000000
+1	Sukene	Humidity	1.000000	-1.000000	1.000000	-1.000000	NaN	NaN	-1.000000	1.000000	...	1.000000	-1.000000	-1.000000	-1.000000	1.000000	1.000000	1.000000	-1.000000	1.000000	1.000000
+0	NaN	Air Temperature	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	...	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN
+1	NaN	Humidity	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	...	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN
+0	Khedgaon	Air Temperature	-0.537389	0.058753	-0.439849	-0.240161	-0.155362	-0.086521	0.364001	0.440525	...	0.535455	0.176162	0.255720	-0.099688	0.110783	0.509539	0.480868	0.269798	-0.484581	-0.060477
+1	Khedgaon	Humidity	0.623297	-0.020980	0.382071	0.238325	0.179599	0.158495	-0.555814	-0.442724	...	-0.546848	-0.114280	-0.348598	-0.013097	-0.156318	-0.415478	-0.285491	-0.208918	0.539072	0.124029
+0	Gondegaon	Air Temperature	-0.141459	0.025566	0.006353	-0.473185	-0.740284	-0.314026	-0.287266	0.540248	...	0.007484	0.160678	0.362204	0.127396	-0.262480	0.229410	-0.262807	0.123931	-0.619326	0.572638
+1	Gondegaon	Humidity	0.161587	0.040503	-0.066024	0.481586	0.741811	0.288810	0.306178	-0.621508	...	0.056290	-0.191192	-0.380358	-0.154628	0.255343	-0.236703	0.328349	-0.144127	0.635785	-0.509804
+0	Tisgaon	Air Temperature	0.728809	-0.879451	0.848065	0.100931	0.159560	-0.019080	-0.873656	0.409707	...	0.967217	-0.871730	-0.702845	-0.699560	-0.036709	0.773187	-0.866393	0.748411	0.570292	0.570292
+1	Tisgaon	Humidity	-0.636477	0.912223	-0.778919	-0.148968	-0.221518	0.026315	0.860878	-0.295580	...	-0.964548	0.867650	0.612694	0.611551	0.163282	-0.685368	0.922971	-0.670707	-0.461478	-0.461478
+0	Talegaon	Air Temperature	-0.734746	-0.267929	-0.991780	0.643751	0.892789	0.977931	0.343094	0.585181	...	0.987328	0.053040	0.711473	0.972030	0.776885	0.578667	-0.940375	-0.882142	-0.855788	-0.780122
+1	Talegaon	Humidity	0.115322	0.741801	0.633475	-0.217976	-0.401772	-0.611949	0.415806	-0.081393	...	-0.674001	0.586840	-0.265196	-0.536287	-0.110858	0.155749	0.644585	0.325495	0.417257	0.354032
+0	Valkhed	Air Temperature	-0.825791	0.146158	-0.840166	-0.028286	-0.033363	-0.523637	0.889874	0.742789	...	0.795196	0.568093	-0.463632	-0.323041	0.361749	0.950099	-0.334983	-0.825835	-0.394128	-0.623169
+1	Valkhed	Humidity	-0.766759	-0.313949	-0.962372	0.058869	-0.183632	-0.444071	0.787499	0.194363	...	0.336465	0.883781	-0.391438	-0.303375	-0.037261	0.686555	0.241771	-0.901403	-0.657886	-0.533505
+0	Pade	Air Temperature	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	...	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN
+1	Pade	Humidity	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	...	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN
+0	Lakhamapur	Air Temperature	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	...	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN
+1	Lakhamapur	Humidity	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	...	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN
+0	Materwadi	Air Temperature	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	...	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN
+1	Materwadi	Humidity	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	...	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN
+0	Varkheda	Air Temperature	1.000000	-1.000000	-1.000000	-1.000000	-1.000000	-1.000000	1.000000	1.000000	...	1.000000	1.000000	1.000000	1.000000	-1.000000	1.000000	-1.000000	1.000000	1.000000	-1.000000
+1	Varkheda	Humidity	1.000000	-1.000000	-1.000000	-1.000000	-1.000000	-1.000000	1.000000	1.000000	...	1.000000	1.000000	1.000000	1.000000	-1.000000	1.000000	-1.000000	1.000000	1.000000	-1.000000
+0	Deherewadi	Air Temperature	-0.784896	0.933060	NaN	0.915702	0.890052	0.220817	0.124223	0.960337	...	-0.925778	0.346353	-0.770047	-0.091360	0.938468	0.644177	-0.579852	0.734365	0.784731	0.927685
+1	Deherewadi	Humidity	0.750724	-0.966495	NaN	-0.949183	-0.935476	-0.252980	-0.220358	-0.985442	...	0.914850	-0.301782	0.770735	0.136927	-0.968757	-0.723431	0.546358	-0.804355	-0.834870	-0.903999
+...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...	...
+0	Jevali	Air Temperature	-1.000000	1.000000	-1.000000	1.000000	-1.000000	-1.000000	NaN	1.000000	...	-1.000000	1.000000	1.000000	-1.000000	1.000000	-1.000000	1.000000	1.000000	1.000000	1.000000
+1	Jevali	Humidity	1.000000	-1.000000	1.000000	-1.000000	1.000000	1.000000	NaN	-1.000000	...	1.000000	-1.000000	-1.000000	1.000000	-1.000000	1.000000	-1.000000	-1.000000	-1.000000	-1.000000
+0	Bijaragi	Air Temperature	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	...	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN
+1	Bijaragi	Humidity	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	...	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN
+0	Sangavi	Air Temperature	-0.105050	-0.168079	0.182804	-0.216973	-0.203777	-0.311645	-0.025267	-0.411929	...	0.073245	-0.057721	0.256121	-0.248251	-0.016130	-0.063219	0.082758	-0.065968	0.103920	0.296909
+1	Sangavi	Humidity	0.076562	0.133987	-0.213177	0.132276	0.150555	0.252847	0.053095	0.379254	...	0.008346	0.046226	-0.295752	0.177395	-0.006479	0.006642	-0.078092	0.053430	-0.133948	-0.280607
+0	Ujani	Air Temperature	-0.857654	-0.015144	-0.466176	0.971668	0.935278	0.860970	0.599598	-0.480287	...	-0.908928	0.627383	0.455280	-0.978734	0.577364	0.764888	0.610855	-0.962060	0.779687	0.269595
+1	Ujani	Humidity	0.924520	0.189318	0.616198	-0.990653	-0.901685	-0.820957	-0.549558	0.551290	...	0.949788	-0.480169	-0.606246	0.994433	-0.430824	-0.653317	-0.677218	0.952017	-0.847014	-0.217114
+0	Dahiwadi	Air Temperature	-0.111092	0.175771	-0.206481	0.244780	0.457882	0.197461	0.011077	-0.691167	...	-0.002450	-0.091029	-0.007056	-0.556323	-0.282563	-0.272946	0.189446	-0.027750	0.325441	0.085798
+1	Dahiwadi	Humidity	0.156207	-0.245346	0.299829	-0.228440	-0.479260	-0.136443	-0.096930	0.639125	...	-0.081602	0.020621	-0.094038	0.550513	0.234542	0.237381	-0.217240	0.004988	-0.311824	-0.152635
+0	Vadgaon	Air Temperature	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	...	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN
+1	Vadgaon	Humidity	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	...	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN
+0	Baktharpur	Air Temperature	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	...	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN
+1	Baktharpur	Humidity	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	...	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN
+0	Khandala	Air Temperature	-1.000000	1.000000	-1.000000	-1.000000	-1.000000	1.000000	1.000000	1.000000	...	-1.000000	-1.000000	1.000000	1.000000	1.000000	1.000000	-1.000000	1.000000	-1.000000	1.000000
+1	Khandala	Humidity	1.000000	-1.000000	1.000000	1.000000	1.000000	-1.000000	-1.000000	-1.000000	...	1.000000	1.000000	-1.000000	-1.000000	-1.000000	-1.000000	1.000000	-1.000000	1.000000	-1.000000
+0	Manori	Air Temperature	-1.000000	1.000000	-1.000000	-1.000000	-1.000000	1.000000	1.000000	1.000000	...	1.000000	-1.000000	1.000000	-1.000000	1.000000	-1.000000	1.000000	-1.000000	1.000000	1.000000
+1	Manori	Humidity	-1.000000	1.000000	-1.000000	-1.000000	-1.000000	1.000000	1.000000	1.000000	...	1.000000	-1.000000	1.000000	-1.000000	1.000000	-1.000000	1.000000	-1.000000	1.000000	1.000000
+0	Jalgaon Neur	Air Temperature	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	...	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN
+1	Jalgaon Neur	Humidity	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	...	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN
+0	Dindori	Air Temperature	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	...	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN
+1	Dindori	Humidity	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	...	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN
+0	Madkijamb	Air Temperature	0.858524	0.890674	0.968967	-0.102136	-0.982804	-0.770554	0.862395	0.582438	...	0.982043	-0.570645	-0.842616	-0.928639	-0.942121	-0.468007	0.779174	0.810428	-0.263540	0.458887
+1	Madkijamb	Humidity	-0.600904	-0.652648	-0.803567	-0.281578	0.840023	0.472352	-0.606959	-0.846554	...	-0.837804	0.217780	0.576444	0.719426	0.745409	0.099118	-0.484327	-0.971773	-0.120766	-0.760767
+0	Chandshi	Air Temperature	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	...	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN
+1	Chandshi	Humidity	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	...	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN
+0	Someshwar	Air Temperature	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	...	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN
+1	Someshwar	Humidity	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	...	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN	NaN
+0	Talwade	Air Temperature	-0.745878	-0.938235	-0.885604	0.998922	0.928744	0.691843	0.973502	0.080766	...	-0.997538	0.691843	0.825205	0.822138	0.838983	0.508823	0.534735	0.154980	0.040584	0.390073
+1	Talwade	Humidity	0.751327	0.935360	0.889391	-0.998507	-0.925666	-0.685885	-0.971590	-0.088955	...	0.998081	-0.685885	-0.829819	-0.826789	-0.843427	-0.515881	-0.541662	-0.146856	-0.048795	-0.382493
+278 rows × 21 columns
+
+dp=pd.DataFrame(final[0])
+dp.columns=secondary
+dp.style.background_gradient(cmap='coolwarm')
+
+dp=pd.DataFrame(final[0])
+dp.columns=secondary
+dp.style.background_gradient(cmap='coolwarm')
+​
+Vilages	Climate Parameters	pH	EC	CaCo3	OC	N	NH4-N	P	K	Ca	Mg	S	Fe	Mn	Zn	Cu	Na	B	HCO3	Cl
+0	Pimpalas Ramche	Air Temperature	0.438565	-0.85652	-0.781479	-0.37866	-0.159179	0.811906	-0.578139	0.18398	0.487322	-0.316855	-0.494663	0.704822	0.210921	0.418137	0.26561	-0.858687	-0.7572	0.070691	-0.0259098
+1	Pimpalas Ramche	Humidity	-0.311237	0.719694	0.785381	0.423929	0.289979	-0.739936	0.751262	-0.200226	-0.303737	0.533887	0.466327	-0.643025	-0.122119	-0.473166	-0.116026	0.67239	0.633165	0.25804	0.247584
+dp=pd.DataFrame(final[1])
+dp.columns=secondary
+dp.style.background_gradient(cmap='coolwarm')
+dp=pd.DataFrame(final[1])
+dp.columns=secondary
+dp.style.background_gradient(cmap='coolwarm')
+Vilages	Climate Parameters	pH	EC	CaCo3	OC	N	NH4-N	P	K	Ca	Mg	S	Fe	Mn	Zn	Cu	Na	B	HCO3	Cl
+0	Oney	Air Temperature	-1	1	-1	1	1	-1	-1	1	1	1	-1	1	-1	1	1	1	-1	-1	-1
+1	Oney	Humidity	-1	1	-1	1	1	-1	-1	1	1	1	-1	1	-1	1	1	1	-1	-1	-1
+dp=pd.DataFrame(final[4])
+dp.columns=secondary
+dp.style.background_gradient(cmap='coolwarm')
+​
+​
